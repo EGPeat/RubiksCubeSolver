@@ -4,6 +4,7 @@
 #include <array>
 #include <string>
 #include <map>
+//wip
 enum class Move {
     Right=0,
     RightPr=1,

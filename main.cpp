@@ -3,7 +3,7 @@
 #include "rubikscube.cpp"
 using std::cout;
 using std::endl;
-
+//wip
 //re private the arrays
 
 int main(void){
