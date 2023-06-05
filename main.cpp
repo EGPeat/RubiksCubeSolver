@@ -18,13 +18,23 @@ RubiksCube.printCube();
 //RubiksCube.xArray[0][5]=colorMap[Color::Orange];
 //RubiksCube.xArray[0][9]=colorMap[Color::Red];
 //RubiksCube.xMovement(0,3);
-//RubiksCube.yMovement(0,3);
-//RubiksCube.printCube();
 
+//good generalized testing setup, can modify to check other things
+RubiksCube.xMovement(2,-3);
+RubiksCube.printCube();
+RubiksCube.zMovement(2,3);
+RubiksCube.printCube();
+RubiksCube.xMovement(0,3);
+RubiksCube.printCube();
 RubiksCube.yMovement(0,3);
 RubiksCube.printCube();
-RubiksCube.xMovement(2,3);
-RubiksCube.printCube();
+
+
+
+
+
+//RubiksCube.zMovement(2,3);
+//RubiksCube.printCube();
 
 //add in face rotation as well as adding in zmovement
 
