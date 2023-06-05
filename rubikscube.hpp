@@ -7,7 +7,7 @@
 enum class Move {
     Right=0,
     RightPr=1,
-    Left=2,
+    Left=2,//have to think really hard about the inputs on these types due to how it's coded
     LeftPr=3,
     Up=4,
     UpPr=5,
@@ -49,18 +49,21 @@ class rCube
     //yArray is read top to bottom. From leftmost of white cube (counter clockwise)
     //xArray is read left to right. From bottommost of white cube (clockwise)
     //zArray is read back to front. From leftmost of blue cube (clockwise)
-    std::array<std::array<std::string, 12>, 3> yArray;
-  //  std::array<std::array<std::string, 12>, 3> xArray;
-    std::array<std::array<std::string, 12>, 3> zArray;
+    std::array<std::array<std::string, 3>, 3> topFace; //blue
+    std::array<std::array<std::string, 3>, 3> bottomFace;//green
+    std::array<std::array<std::string, 3>, 3> firstFace;//white
+    std::array<std::array<std::string, 3>, 3> secondFace;//red
+    std::array<std::array<std::string, 3>, 3> thirdFace;//yellow
+    std::array<std::array<std::string, 3>, 3> fourthFace;//orange
     
     public:
-    std::array<std::array<std::string, 12>, 3> xArray;
-    void debugprintCube();
+    
+    
     rCube();
     //import from File
-    void messUp(int numMoves,int snapShot);
+   // void messUp(int numMoves,int snapShot);
     void printCube();
-    void movement(Move moveChoice);
+    //void movement(Move moveChoice);
     //distanceChoice is in mult of 3
     void yMovement(int layerChoice, int distanceChoice);//need to work around stuff to rotate
     void xMovement(int layerChoice, int distanceChoice);

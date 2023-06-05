@@ -8,56 +8,33 @@
 #include <queue>
 
 rCube:: rCube(){
-for(int i=0;i<3;i++){
-    for(int white=0;white<3;white++){
-        yArray[i][white]=colorMap[Color::White];
-    }
-    for(int orange=3;orange<6;orange++){
-        yArray[i][orange]=colorMap[Color::Orange];
-    }
-    for(int yellow=6;yellow<9;yellow++){
-        yArray[i][yellow]=colorMap[Color::Yellow];
-    }
-    for(int red=9;red<12;red++){
-        yArray[i][red]=colorMap[Color::Red];
-    }
-}
 
-for(int i=0;i<3;i++){
-    for(int white=0;white<3;white++){
-        xArray[i][white]=colorMap[Color::White];
-    }
-    for(int blue=3;blue<6;blue++){
-        xArray[i][blue]=colorMap[Color::Blue];
-    }
-    for(int yellow=6;yellow<9;yellow++){
-        xArray[i][yellow]=colorMap[Color::Yellow];
-    }
-    for(int green=9;green<12;green++){
-        xArray[i][green]=colorMap[Color::Green];
-    }
-}
 
 for(int i=0;i<3;i++){
     for(int blue=0;blue<3;blue++){
-        zArray[i][blue]=colorMap[Color::Blue];
+        topFace[i][blue]=colorMap[Color::Blue];
     }
-    for(int red=3;red<6;red++){
-        zArray[i][red]=colorMap[Color::Red];
+    for(int green=0;green<3;green++){
+        bottomFace[i][green]=colorMap[Color::Green];
     }
-    for(int green=6;green<9;green++){
-        zArray[i][green]=colorMap[Color::Green];
+    for(int white=0;white<3;white++){
+        firstFace[i][white]=colorMap[Color::White];
     }
-    for(int orange=9;orange<12;orange++){
-        zArray[i][orange]=colorMap[Color::Orange];
+    for(int red=0;red<3;red++){
+        secondFace[i][red]=colorMap[Color::Red];
     }
+    for(int yellow=0;yellow<3;yellow++){
+        thirdFace[i][yellow]=colorMap[Color::Yellow];
+    }
+    for(int orange=0;orange<3;orange++){
+        fourthFace[i][orange]=colorMap[Color::Orange];
+    }
+    
 }
 
 
-
-
 }
-
+/*
 void rCube::messUp(int numMoves,int snapShot){
      std::random_device rd; 
     std::mt19937 mt(rd()); 
@@ -80,7 +57,8 @@ void rCube::messUp(int numMoves,int snapShot){
 
 
 }
-
+*/
+/*
 void rCube::movement(Move movechoice){
 switch (movechoice) {
         case Move::Right:
@@ -143,64 +121,106 @@ switch (movechoice) {
     }
 
 }
-
+*/
  void rCube::printCube(){
 std::cout<<"Printed Cube:"<<std::endl;
 
-for(int i=0;i<3;i++){ //top part
-    for(int j=3;j<6;j++){
-        std::cout<<xArray[i][j];
+    for(int i=0;i<3;i++){ //top part
+        for(int j=0;j<3;j++){
+            std::cout<<topFace[i][j];
+        }
+        std::cout<<std::endl;
     }
-    std::cout<<std::endl;
-}
 
-
-for(int i=0;i<3;i++){ //main line
-    for(int j=0;j<12;j++){
-        std::cout<<yArray[i][j];
+    for(int i=0;i<3;i++){ //main line
+        for(int j=0;j<3;j++){
+            std::cout<<firstFace[i][j];
+        }
+        for(int j=0;j<3;j++){
+            std::cout<<secondFace[i][j];
+        }
+        for(int j=0;j<3;j++){
+            std::cout<<thirdFace[i][j];
+        }
+        for(int j=0;j<3;j++){
+            std::cout<<fourthFace[i][j];
+        }
+        std::cout<<std::endl;
     }
-    std::cout<<std::endl;
-}
-
-
-for(int i=0;i<3;i++){ //bottom part
-    for(int j=9;j<12;j++){
-        std::cout<<xArray[i][j];
+    for(int i=0;i<3;i++){ //bottom part
+        for(int j=0;j<3;j++){
+            std::cout<<bottomFace[i][j];
+        }
+        std::cout<<std::endl;
     }
-    std::cout<<std::endl;
+
 }
 
- }
 
 
-void rCube::debugprintCube(){
+void rCube::xMovement(int layerChoice, int distanceChoice){
+std::array<std::array<std::string, 3>, 3> tempyArray=firstFace;
 
-std::cout<<"Printed Debug Cube:"<<std::endl;
-
-
-for(int i=0;i<3;i++){ //main line
-    for(int j=0;j<12;j++){
-        std::cout<<yArray[i][j];
-    }
-    std::cout<<std::endl;
+for(int i=0;i<3;i++){
+    if(distanceChoice<0){firstFace[i][layerChoice]=topFace[i][layerChoice];}
+    else{firstFace[i][layerChoice]=bottomFace[i][layerChoice];}
 }
-//std::cout<<std::endl;
-for(int i=0;i<3;i++){ //main line
-    for(int j=0;j<12;j++){
-        std::cout<<xArray[i][j];
-    }
-    std::cout<<std::endl;
+
+for(int i=0;i<3;i++){
+    if(distanceChoice<0){topFace[i][layerChoice]=thirdFace[2-i][2-layerChoice];}
+    else{bottomFace[i][layerChoice]=thirdFace[2-i][2-layerChoice];}
 }
-//std::cout<<std::endl;
-for(int i=0;i<3;i++){ //main line
-    for(int j=0;j<12;j++){
-        std::cout<<zArray[i][j];
-    }
-    std::cout<<std::endl;
+
+for(int i=0;i<3;i++){
+    if(distanceChoice<0){thirdFace[2-i][2-layerChoice]=bottomFace[i][layerChoice];}
+    else{thirdFace[2-i][2-layerChoice]=topFace[i][layerChoice];}
 }
 
 
+for(int i=0;i<3;i++){
+    if(distanceChoice<0){bottomFace[i][layerChoice]=tempyArray[i][layerChoice];}
+    else{topFace[i][layerChoice]=tempyArray[i][layerChoice];}
 }
+
+}
+
+
+
+
+
+void rCube::yMovement(int layerChoice, int distanceChoice){
+std::array<std::array<std::string, 3>, 3> tempyArray=firstFace;
+
+for(int i=0;i<3;i++){
+    if(distanceChoice>0){firstFace[layerChoice][i]=secondFace[layerChoice][i];}
+    else{firstFace[layerChoice][i]=fourthFace[layerChoice][i];}
+}
+
+
+
+
+
+for(int i=0;i<3;i++){
+    if(distanceChoice>0){secondFace[layerChoice][i]=thirdFace[layerChoice][i];}
+    else{fourthFace[layerChoice][i]=thirdFace[layerChoice][i];}
+}
+
+for(int i=0;i<3;i++){
+    if(distanceChoice>0){thirdFace[layerChoice][i]=fourthFace[layerChoice][i];}
+    else{thirdFace[layerChoice][i]=secondFace[layerChoice][i];}
+}
+
+
+for(int i=0;i<3;i++){
+    if(distanceChoice>0){fourthFace[layerChoice][i]=tempyArray[layerChoice][i];}
+    else{secondFace[layerChoice][i]=tempyArray[layerChoice][i];}
+}
+
+}
+
+
+
+/*
 void rCube::yMovement(int layerChoice, int distanceChoice){
 
 std::array<std::array<std::string, 12>, 3> tempyArray=yArray;
@@ -215,27 +235,7 @@ for(int i=24;i<27;i++){
     zArray[(i)%12][11-layerChoice]=yArray[layerChoice][(5-(i%12))];
 }
 }
-
-void rCube::xMovement(int layerChoice, int distanceChoice){
-
-std::array<std::array<std::string, 12>, 3> tempxArray=xArray;
-for(int i=24;i<36;i++){
-    xArray[layerChoice][(i+distanceChoice)%12]=tempxArray[layerChoice][(i%12)];
-
-}
-for(int i=24;i<27;i++){
-
-    //change xarray and y array and such
-        yArray[(i)%12][layerChoice]=xArray[layerChoice][(i)%12];
-        //yArray[(i)%12][6+layerChoice]=xArray[layerChoice][(i+6)%12];
-
-
- //   xArray[(i)%12][2-layerChoice]=yArray[layerChoice][(i)%12];
-//    xArray[(i)%12][6+layerChoice]=yArray[layerChoice][(i+6)%12];
-//    zArray[(i)%12][3+layerChoice]=yArray[layerChoice][(i+9)%12]; //gotta check it works right for things in the rows
-//    zArray[(i)%12][11-layerChoice]=yArray[layerChoice][(5-(i%12))];
-}
-}
+*/
 
 
 
