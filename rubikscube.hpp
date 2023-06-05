@@ -67,7 +67,8 @@ class rCube
     //distanceChoice is in mult of 3
     void yMovement(int layerChoice, int distanceChoice);//need to work around stuff to rotate
     void xMovement(int layerChoice, int distanceChoice);
- //   void zMovement(int layerChoice, int distanceChoice);
+    void zMovement(int layerChoice, int distanceChoice); //ADD FACE ROTATION
+ std::array<std::array<std::string, 3>, 3> rotateFace(std::array<std::array<std::string, 3>, 3> face2Rot, int distanceChoice);
 
 };
 

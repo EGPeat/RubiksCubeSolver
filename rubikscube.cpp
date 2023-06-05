@@ -131,7 +131,7 @@ std::cout<<"Printed Cube:"<<std::endl;
         }
         std::cout<<std::endl;
     }
-
+std::cout<<std::endl;
     for(int i=0;i<3;i++){ //main line
         for(int j=0;j<3;j++){
             std::cout<<firstFace[i][j];
@@ -147,6 +147,7 @@ std::cout<<"Printed Cube:"<<std::endl;
         }
         std::cout<<std::endl;
     }
+std::cout<<std::endl;
     for(int i=0;i<3;i++){ //bottom part
         for(int j=0;j<3;j++){
             std::cout<<bottomFace[i][j];
@@ -182,9 +183,57 @@ for(int i=0;i<3;i++){
     else{topFace[i][layerChoice]=tempyArray[i][layerChoice];}
 }
 
+
+if(layerChoice!=1){
+    if(layerChoice==0){
+        
+        fourthFace=rotateFace(fourthFace,-1*distanceChoice);
+    }
+    else{
+        secondFace=rotateFace(secondFace,distanceChoice); //do these two do weird things? test more
+    }
+}
+
 }
 
 
+
+
+
+
+std::array<std::array<std::string, 3>, 3> rCube::rotateFace(std::array<std::array<std::string, 3>, 3> face2Rot, int distanceChoice){//my implementation wont work for rotations past 3
+std::array<std::array<std::string, 3>, 3> tempFace=face2Rot;
+
+if(distanceChoice>0){
+    face2Rot[0][1]=tempFace[1][0];
+    face2Rot[1][2]=tempFace[0][1];
+    face2Rot[2][1]=tempFace[1][2];
+    face2Rot[1][0]=tempFace[2][1];
+
+    face2Rot[0][0]=tempFace[2][0];
+    face2Rot[0][2]=tempFace[0][0];
+    face2Rot[2][2]=tempFace[0][2];
+    face2Rot[2][0]=tempFace[2][2];
+
+
+}
+
+else{
+face2Rot[1][0]=tempFace[0][1];
+face2Rot[0][1]=tempFace[1][2];
+face2Rot[1][2]=tempFace[2][1];
+face2Rot[2][1]=tempFace[1][0];
+
+face2Rot[2][0]=tempFace[0][0];
+face2Rot[0][0]=tempFace[0][2];
+face2Rot[0][2]=tempFace[2][2];
+face2Rot[2][2]=tempFace[2][0];
+
+
+}
+
+return face2Rot;
+}
 
 
 
@@ -216,26 +265,76 @@ for(int i=0;i<3;i++){
     else{secondFace[layerChoice][i]=tempyArray[layerChoice][i];}
 }
 
+
+if(layerChoice!=1){
+    if(layerChoice==0){
+        
+        topFace=rotateFace(topFace,distanceChoice);
+    }
+    else{
+        bottomFace=rotateFace(bottomFace,-1*distanceChoice); //do these two do weird things? test more
+    }
+}
+
 }
 
 
 
-/*
-void rCube::yMovement(int layerChoice, int distanceChoice){
 
-std::array<std::array<std::string, 12>, 3> tempyArray=yArray;
-for(int i=24;i<36;i++){
-    yArray[layerChoice][(i+distanceChoice)%12]=tempyArray[layerChoice][(i%12)];
+
+
+void rCube::zMovement(int layerChoice, int distanceChoice){
+std::array<std::array<std::string, 3>, 3> tempyArray=topFace;
+
+for(int i=0;i<3;i++){
+    if(distanceChoice>0){topFace[2-layerChoice][i]=fourthFace[2-i][2-layerChoice];}
+    else{topFace[2-layerChoice][i]=secondFace[i][layerChoice];}
+}
+
+
+
+
+
+for(int i=0;i<3;i++){
+    if(distanceChoice>0){fourthFace[i][2-layerChoice]=bottomFace[layerChoice][i];}
+
+   // [0][0]=[0][0]
+  //  [1][0]=[0][1]
+ //   [2][0]=[0][2]
+    else{secondFace[2-i][layerChoice]=bottomFace[layerChoice][i];}
+}
+
+for(int i=0;i<3;i++){
+    if(distanceChoice>0){bottomFace[layerChoice][i]=secondFace[2-i][layerChoice];}
+  //  [0][0]=[2][0]
+  //  [0][1]=[2][1]
+   // [0][2]=[2][2]
+    else{bottomFace[layerChoice][i]=fourthFace[i][2-layerChoice];}
+}
+
+
+for(int i=0;i<3;i++){ 
+    if(distanceChoice>0){secondFace[i][layerChoice]=tempyArray[2-layerChoice][i];}
+    //  [0][2]=[2][2]
+  //  [1][2]=[2][1]
+   // [2][2]=[2][0]
+   else{fourthFace[i][2-layerChoice]=tempyArray[2-layerChoice][2-i];}
+}
+
+
+if(layerChoice!=1){
+    if(layerChoice==0){
+        
+        firstFace=rotateFace(firstFace,distanceChoice);
+    }
+    else{
+        thirdFace=rotateFace(thirdFace,-1*distanceChoice); //do these two do weird things? test more
+    }
+}
 
 }
-for(int i=24;i<27;i++){
-    xArray[(i)%12][2-layerChoice]=yArray[layerChoice][(i)%12];
-    xArray[(i)%12][6+layerChoice]=yArray[layerChoice][(i+6)%12];
-    zArray[(i)%12][3+layerChoice]=yArray[layerChoice][(i+9)%12]; //gotta check it works right for things in the rows
-    zArray[(i)%12][11-layerChoice]=yArray[layerChoice][(5-(i%12))];
-}
-}
-*/
+
+
 
 
 
