@@ -52,6 +52,8 @@ RubiksCube.checkWhiteCross();
             RubiksCube.checkWhiteCross();
             RubiksCube.firstLayerFinish();
             RubiksCube.printCubeCross();
+            RubiksCube.secondLayerFinish();
+             RubiksCube.printCubeCross();
 //move white cross into correct position, then white edges
 //then move second row centers to right spot 
 

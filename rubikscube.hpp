@@ -96,6 +96,12 @@ std::vector<std::pair<int, int>> cornerPositions = {
     void firstLayerFinish();
     void cornerToYellow(std::pair<Color, Color> colorPair, Color topCenterColor);
     void cornerYellowtoWhite(std::pair<Color, Color> colorPair, Color topCenterColor);
+
+    void secondLayerFinish();
+    void secondLayerMovement(std::pair<Color, Color> colorPair, Color topCenterColor);
+    void secLayerLeftMove();
+    void secLayerRightMove();
+
 };
 
 

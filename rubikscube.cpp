@@ -781,7 +781,7 @@ void rCube::moveWhiteCross(std::pair<int, int> finalPos,Color connEdge){
              }
              //[1][0] is actually the type that needs a lot of moves
              else  if((fourthFace[1][0]._color==Color::White)&&(fourthFace[1][0]._connectedColors[0]==connEdge)){
-                   movement(Move::Left);//good
+                    movement(Move::Left);//good
                     movement(Move::Top);//good
                     movement(Move::BackPr);//good
                     movement(Move::TopPr);//good
@@ -799,33 +799,31 @@ void rCube::moveWhiteCross(std::pair<int, int> finalPos,Color connEdge){
 
 
 
+
+
 void rCube::cornerToYellow(std::pair<Color, Color> colorPair, Color topCenterColor){//this moves the corner to yellow.
 // then another function will be called to move the corner to the white layer. This will be done in the larger function
 
-    if((firstFace[0][0]._color==Color::White )&&(thirdFace[0][0]._connectedColors.at(0)==colorPair.first )&&
-    (thirdFace[0][0]._connectedColors.at(1)==colorPair.second )){//correct placement already
+    if((firstFace[0][0]._color==Color::White )&&(firstFace[0][0]._connectedColors.at(0)==colorPair.first )&&
+    (firstFace[0][0]._connectedColors.at(1)==colorPair.second )){//correct placement already
+       std::cout<<"piece is already there\n";
+       return;}
     
-       return;
-    }
-    for(int i=0;i<4;i++){//for rotating the 
-    
-    
-    if((firstFace[0][2]._color==Color::White )&&(thirdFace[0][2]._connectedColors.at(0)==colorPair.first )&&
-    (thirdFace[0][2]._connectedColors.at(1)==colorPair.second )){//checking white to make sure the 
-       
-       movement(Move::Right);
-       movement(Move::BackPr);
+
+    for(int i=0;i<4;i++){//for rotating the white face to check all the spots
+    if((firstFace[0][2]._color==Color::White )&&(firstFace[0][2]._connectedColors.at(0)==colorPair.first )&&
+    (firstFace[0][2]._connectedColors.at(1)==colorPair.second )){//checking white to make sure the      
+       movement(Move::Right);     
+       movement(Move::BackPr); 
        movement(Move::RightPr);
-       movement(Move::TopPr); 
+       movement(Move::TopPr);
        movement(Move::Back);
-       movement(Move::Top);
+       movement(Move::Top);       
        return;
     }
-    
     
     movement(Move::rotateZPr);
-}
-    
+}  
 
     for(int i=0;i<cornerPositions.size();i++){//yellow
     int row = crossPositions[i].first;
@@ -833,9 +831,11 @@ void rCube::cornerToYellow(std::pair<Color, Color> colorPair, Color topCenterCol
     
     if((thirdFace[row][col]._color==Color::White )&&(thirdFace[row][col]._connectedColors.at(0)==colorPair.first )&&
     (thirdFace[row][col]._connectedColors.at(1)==colorPair.second )){//checking yellow to make sure the 
+        
         return;
     }
     }
+
 
 for(int i=0;i<4;i++){//for rotating the 
     for(int j=0;j<cornerPositions.size();j++){
@@ -847,7 +847,10 @@ for(int i=0;i<4;i++){//for rotating the
         movement(Move::LeftPr);
         movement(Move::Back);
         movement(Move::Left);
-        
+        movement(Move::TopPr);
+        movement(Move::Left);
+        movement(Move::Top);
+        movement(Move::LeftPr);
         return;
     }
     if((topFace[0][2]._color==Color::White )&&(topFace[0][2]._connectedColors.at(0)==colorPair.first )&&
@@ -855,6 +858,10 @@ for(int i=0;i<4;i++){//for rotating the
         movement(Move::Right);
         movement(Move::BackPr);
         movement(Move::RightPr);
+        movement(Move::Top);
+        movement(Move::RightPr);
+        movement(Move::TopPr);
+        movement(Move::Right);
         return;
     }
     if((topFace[2][0]._color==Color::White )&&(topFace[2][0]._connectedColors.at(0)==colorPair.first )&&
@@ -883,13 +890,17 @@ for(int i=0;i<4;i++){//for rotating the
 void rCube::cornerYellowtoWhite(std::pair<Color, Color> colorPair, Color topCenterColor){
     int killswitch=0;
 
-    while(killswitch<10 || ((thirdFace[0][2]._color!=Color::White )||(thirdFace[0][2]._connectedColors.at(0)!=colorPair.first )||
-    (thirdFace[0][2]._connectedColors.at(1)!=colorPair.second ))
+while((thirdFace[0][2]._color!=Color::White )||
+(thirdFace[0][2]._connectedColors.at(0)!=colorPair.first )||
+    (thirdFace[0][2]._connectedColors.at(1)!=colorPair.second )
     ){// use && or ||
         killswitch++;
         movement(Move::Back);
+        if(killswitch>10){
+            return;
+            //used to be break;
+        }
     }
-
     movement(Move::Top);
     movement(Move::Back);
     movement(Move::Back);
@@ -898,7 +909,7 @@ void rCube::cornerYellowtoWhite(std::pair<Color, Color> colorPair, Color topCent
     movement(Move::Top);
     movement(Move::Back);
     movement(Move::TopPr);
-
+    return;
     
 }
 
@@ -907,31 +918,128 @@ void rCube::firstLayerFinish(){
      std::array<std::pair<Color, Color>, 4> cornerColor={
     std::make_pair(Color::Blue,Color::Orange),
     std::make_pair(Color::Blue,Color::Red),
-    std::make_pair(Color::Green,Color::Orange),
-    std::make_pair(Color::Green,Color::Red)};
+    std::make_pair(Color::Green,Color::Red),
+    std::make_pair(Color::Green,Color::Orange)};
 
 
 
-    for(int i=0;i<4;i++){ 
-        Color backupColor=centerColor.at(i);
-        cornerToYellow(cornerColor.at(i),centerColor.at(i));
+    for(int i=0;i<4;i++){  //for each white corner it runs
+        Color backupColor=centerColor.at(i); // color on topface
+        cornerToYellow(cornerColor.at(i),centerColor.at(i)); //finds and moves the corner to the right spot in the 3rdface
         while(topFace[1][1]._color!=backupColor){
             movement(Move::rotateZPr);
         }
+   //     if (topFace[0][0]._connectedColors.at(0) != cornerColor.at(i).first ||
+   //         topFace[0][0]._connectedColors.at(1) != cornerColor.at(i).second) {
         cornerYellowtoWhite(cornerColor.at(i),centerColor.at(i));
+        //}
         while(topFace[1][1]._color!=backupColor){
             movement(Move::rotateZPr);
         }
-        //rotate back to the  backupColor thing
-
+        printCubeCross();
     movement(Move::rotateZPr);
     }
+}
 
+void rCube::secLayerLeftMove(){
+    movement(Move::BackPr);
+    movement(Move::LeftPr);
+    movement(Move::BackPr);
+    movement(Move::Left);
+    movement(Move::Back);
+    movement(Move::Top);
+    movement(Move::Back);
+    movement(Move::TopPr);
+}
+void rCube::secLayerRightMove(){
+    movement(Move::Back);
+    movement(Move::Right);
+    movement(Move::Back);
+    movement(Move::RightPr);
+    movement(Move::BackPr);
+    movement(Move::TopPr);
+    movement(Move::BackPr);
+    movement(Move::Top);
+}
+void rCube::secondLayerMovement(std::pair<Color, Color> colorPair, Color topCenterColor){
+for(int i=0;i<4;i++){
+    if(topFace[0][1]._color==topFace[1][1]._color){
+        if(topFace[0][1]._connectedColors.at(0)==fourthFace[1][1]._color){
+            printCubeCross();
+            secLayerLeftMove();
+            printCubeCross();
+            return;
+        }
+        else if(topFace[0][1]._connectedColors.at(0)==secondFace[1][1]._color){
+            secLayerRightMove();
+            printCubeCross();
+            return;
+        }
+
+    }
+
+
+    printCubeCross();
+    movement(Move::rotateZPr);
+    movement(Move::BackPr);//or back lol? 
+    printCubeCross();
+
+}
+
+while(topFace[1][1]._color!=topCenterColor){//move back to start
+    std::cout<<"moving back to start owo"<<std::endl;
+    movement(Move::rotateZPr); 
+}
+}
+
+
+
+void rCube::secondLayerFinish(){ //really unoptimal, runs through stuff wayyyy too many times
+Color backupColor;
+for(int i=0;i<8;i++){
+    backupColor=topFace[1][1]._color;
+    if(topFace[0][1]._color!=Color::Yellow&&topFace[0][1]._connectedColors.at(0)!=Color::Yellow){//checking [0][1] is bad
+    secondLayerMovement(std::make_pair(topFace[0][1]._color,topFace[0][1]._connectedColors.at(0)),backupColor);
+    }
+    
+    movement(Move::rotateZPr); 
+}
+
+
+
+for(int i=0;i<8;i++){//moves pieces into the second layer then fixes them
+    backupColor=topFace[1][1]._color;
+    
+    
+    if((topFace[1][0]._color!=Color::Yellow && topFace[1][0]._connectedColors.at(0)!=Color::Yellow)&&
+    !(topFace[1][0]._color==topFace[1][1]._color&&topFace[1][0]._connectedColors.at(0)==fourthFace[1][1]._color)){
+        secLayerLeftMove();
+        movement(Move::Back);
+        movement(Move::Back);
+        secondLayerMovement(std::make_pair(topFace[0][1]._color,topFace[0][1]._connectedColors.at(0)),backupColor);
+    }
+    else if((topFace[1][2]._color!=Color::Yellow && topFace[1][2]._connectedColors.at(0)!=Color::Yellow)&&
+    !(topFace[1][2]._color==topFace[1][1]._color&&topFace[1][2]._connectedColors.at(0)==secondFace[1][1]._color)){
+        secLayerRightMove();
+        movement(Move::Back);
+        movement(Move::Back);
+        secondLayerMovement(std::make_pair(topFace[0][1]._color,topFace[0][1]._connectedColors.at(0)),backupColor);
+    }
+    
+    
+    movement(Move::rotateZPr); 
+}
+for(int i=0;i<8;i++){//checks the topface for a
+    backupColor=topFace[1][1]._color;
+    if(topFace[0][1]._color!=Color::Yellow&&topFace[0][1]._connectedColors.at(0)!=Color::Yellow){//checking [0][1] is bad
+    secondLayerMovement(std::make_pair(topFace[0][1]._color,topFace[0][1]._connectedColors.at(0)),backupColor);
+    }
+    
+    movement(Move::rotateZPr); 
+}
 
 
 
 }
-
-
 
 #endif
