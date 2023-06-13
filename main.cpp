@@ -11,31 +11,47 @@ int main(void){
 cout<<"Welcome to Evan's Rubik's Cube Scrambler and Solver Program"<<endl;
 
 rCube RubiksCube;
+
 RubiksCube.printCube();
 RubiksCube.printCubeCross();
 
-/*RubiksCube.movement(Move::Top);
-RubiksCube.movement(Move::Top);
-RubiksCube.movement(Move::Back);*/
-//RubiksCube.movement(Move::FrontPr);
 
-  //  RubiksCube.movement(Move::TopPr);
-  //  RubiksCube.printCubeCross();
-  //  RubiksCube.movement(Move::Back);
- //   RubiksCube.printCubeCross();
- //   RubiksCube.movement(Move::Right);
-          RubiksCube.messUp(30,30);
-RubiksCube.printCubeCross();
+ //         RubiksCube.messUp(30,30);
 
-            RubiksCube.moveWhiteToFirst(false);
-            RubiksCube.checkWhiteCross();
+        //RubiksCube.movement(Move::Right);
+        //RubiksCube.movement(Move::rotateZPr);
+
+         /*RubiksCube.movement(Move::Top);
+         RubiksCube.movement(Move::Back);
+         RubiksCube.movement(Move::Back);
+         RubiksCube.movement(Move::TopPr);
+         RubiksCube.movement(Move::BackPr);
+         RubiksCube.movement(Move::Top);
+         RubiksCube.movement(Move::Back);
+         RubiksCube.movement(Move::TopPr);
 
 
-        RubiksCube.printCubeCross();
-//RubiksCube.messUp(30,5);
+        RubiksCube.printCubeCross();*/
+        
+
+
+
+
+
+
+
+
+ 
+
+
+
+RubiksCube.messUp(30,30);
 //RubiksCube.printCubeCross();
-//RubiksCube.checkWhiteCross();
-
+RubiksCube.checkWhiteCross();
+           RubiksCube.moveWhiteToFirst(false);
+            RubiksCube.checkWhiteCross();
+            RubiksCube.firstLayerFinish();
+            RubiksCube.printCubeCross();
 //move white cross into correct position, then white edges
 //then move second row centers to right spot 
 

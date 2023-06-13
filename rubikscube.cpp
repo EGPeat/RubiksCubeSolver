@@ -798,4 +798,140 @@ void rCube::moveWhiteCross(std::pair<int, int> finalPos,Color connEdge){
 
 
 
+
+void rCube::cornerToYellow(std::pair<Color, Color> colorPair, Color topCenterColor){//this moves the corner to yellow.
+// then another function will be called to move the corner to the white layer. This will be done in the larger function
+
+    if((firstFace[0][0]._color==Color::White )&&(thirdFace[0][0]._connectedColors.at(0)==colorPair.first )&&
+    (thirdFace[0][0]._connectedColors.at(1)==colorPair.second )){//correct placement already
+    
+       return;
+    }
+    for(int i=0;i<4;i++){//for rotating the 
+    
+    
+    if((firstFace[0][2]._color==Color::White )&&(thirdFace[0][2]._connectedColors.at(0)==colorPair.first )&&
+    (thirdFace[0][2]._connectedColors.at(1)==colorPair.second )){//checking white to make sure the 
+       
+       movement(Move::Right);
+       movement(Move::BackPr);
+       movement(Move::RightPr);
+       movement(Move::TopPr); 
+       movement(Move::Back);
+       movement(Move::Top);
+       return;
+    }
+    
+    
+    movement(Move::rotateZPr);
+}
+    
+
+    for(int i=0;i<cornerPositions.size();i++){//yellow
+    int row = crossPositions[i].first;
+    int col = crossPositions[i].second;
+    
+    if((thirdFace[row][col]._color==Color::White )&&(thirdFace[row][col]._connectedColors.at(0)==colorPair.first )&&
+    (thirdFace[row][col]._connectedColors.at(1)==colorPair.second )){//checking yellow to make sure the 
+        return;
+    }
+    }
+
+for(int i=0;i<4;i++){//for rotating the 
+    for(int j=0;j<cornerPositions.size();j++){
+    int row = crossPositions[j].first;
+    int col = crossPositions[j].second;
+    
+    if((topFace[0][0]._color==Color::White )&&(topFace[0][0]._connectedColors.at(0)==colorPair.first )&&
+    (topFace[0][0]._connectedColors.at(1)==colorPair.second )){
+        movement(Move::LeftPr);
+        movement(Move::Back);
+        movement(Move::Left);
+        
+        return;
+    }
+    if((topFace[0][2]._color==Color::White )&&(topFace[0][2]._connectedColors.at(0)==colorPair.first )&&
+    (topFace[0][2]._connectedColors.at(1)==colorPair.second )){
+        movement(Move::Right);
+        movement(Move::BackPr);
+        movement(Move::RightPr);
+        return;
+    }
+    if((topFace[2][0]._color==Color::White )&&(topFace[2][0]._connectedColors.at(0)==colorPair.first )&&
+    (topFace[2][0]._connectedColors.at(1)==colorPair.second )){
+        movement(Move::LeftPr);
+        movement(Move::BackPr);
+        movement(Move::Left);
+        return;
+    }
+    if((topFace[2][2]._color==Color::White )&&(topFace[2][2]._connectedColors.at(0)==colorPair.first )&&
+    (topFace[2][2]._connectedColors.at(1)==colorPair.second )){
+        movement(Move::Right);
+        movement(Move::Back);
+        movement(Move::RightPr);
+        return;
+    }
+    
+    }
+    movement(Move::rotateZPr);
+}
+
+
+
+}
+
+void rCube::cornerYellowtoWhite(std::pair<Color, Color> colorPair, Color topCenterColor){
+    int killswitch=0;
+
+    while(killswitch<10 || ((thirdFace[0][2]._color!=Color::White )||(thirdFace[0][2]._connectedColors.at(0)!=colorPair.first )||
+    (thirdFace[0][2]._connectedColors.at(1)!=colorPair.second ))
+    ){// use && or ||
+        killswitch++;
+        movement(Move::Back);
+    }
+
+    movement(Move::Top);
+    movement(Move::Back);
+    movement(Move::Back);
+    movement(Move::TopPr);
+    movement(Move::BackPr);
+    movement(Move::Top);
+    movement(Move::Back);
+    movement(Move::TopPr);
+
+    
+}
+
+void rCube::firstLayerFinish(){
+    std::array<Color,4> centerColor={Color::Blue,Color::Red,Color::Green,Color::Orange};
+     std::array<std::pair<Color, Color>, 4> cornerColor={
+    std::make_pair(Color::Blue,Color::Orange),
+    std::make_pair(Color::Blue,Color::Red),
+    std::make_pair(Color::Green,Color::Orange),
+    std::make_pair(Color::Green,Color::Red)};
+
+
+
+    for(int i=0;i<4;i++){ 
+        Color backupColor=centerColor.at(i);
+        cornerToYellow(cornerColor.at(i),centerColor.at(i));
+        while(topFace[1][1]._color!=backupColor){
+            movement(Move::rotateZPr);
+        }
+        cornerYellowtoWhite(cornerColor.at(i),centerColor.at(i));
+        while(topFace[1][1]._color!=backupColor){
+            movement(Move::rotateZPr);
+        }
+        //rotate back to the  backupColor thing
+
+    movement(Move::rotateZPr);
+    }
+
+
+
+
+}
+
+
+
 #endif

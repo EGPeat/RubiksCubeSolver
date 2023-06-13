@@ -92,6 +92,10 @@ std::vector<std::pair<int, int>> cornerPositions = {
     void moveWhiteCrossfromYellow(std::pair<int, int> finalPos,Color connEdge);
     void checkWhiteCross();
     void swappingFirstandThird(std::pair<int, int> finalPos,Color connEdge);
+
+    void firstLayerFinish();
+    void cornerToYellow(std::pair<Color, Color> colorPair, Color topCenterColor);
+    void cornerYellowtoWhite(std::pair<Color, Color> colorPair, Color topCenterColor);
 };
 
 
