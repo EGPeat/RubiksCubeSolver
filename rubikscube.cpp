@@ -145,6 +145,8 @@ for(int i=0;i<3;i++){
 
 }
 
+
+
 }
 
 
@@ -162,12 +164,15 @@ std::cout<<std::endl;
         for(int j=0;j<3;j++){
             std::cout<<firstFace[i][j]._emoji;
         }
+        std::cout<<"\U00002B1B ";
         for(int j=0;j<3;j++){
             std::cout<<secondFace[i][j]._emoji;
         }
+        std::cout<<"\U00002B1B ";
         for(int j=0;j<3;j++){
             std::cout<<thirdFace[i][j]._emoji;
         }
+        std::cout<<"\U00002B1B ";
         for(int j=0;j<3;j++){
             std::cout<<fourthFace[i][j]._emoji;
         }
@@ -187,25 +192,31 @@ void rCube::printCubeCross(){
 std::cout<<"Printed Cube:"<<std::endl;
 
     for(int i=0;i<3;i++){ //top part
-        for(int j=0;j<3;j++){
+        for(int j=0;j<4;j++){
             std::cout<<"\U00002B1B ";
         }
+
         for(int j=0;j<3;j++){
             std::cout<<topFace[i][j]._emoji;
         }
         std::cout<<std::endl;
     }
 std::cout<<std::endl;
+
+
     for(int i=0;i<3;i++){ //main line
         for(int j=0;j<3;j++){
             std::cout<<fourthFace[i][j]._emoji;
         }
+        std::cout<<"\U00002B1B ";
         for(int j=0;j<3;j++){
             std::cout<<firstFace[i][j]._emoji;
         }
+        std::cout<<"\U00002B1B ";
         for(int j=0;j<3;j++){
             std::cout<<secondFace[i][j]._emoji;
         }
+        std::cout<<"\U00002B1B ";
         for(int j=0;j<3;j++){
             std::cout<<thirdFace[i][j]._emoji;
         }
@@ -213,8 +224,11 @@ std::cout<<std::endl;
         std::cout<<std::endl;
     }
 std::cout<<std::endl;
+
+
+
     for(int i=0;i<3;i++){ //bottom part
-        for(int j=0;j<3;j++){
+        for(int j=0;j<4;j++){
             std::cout<<"\U00002B1B ";
         }
         for(int j=0;j<3;j++){
@@ -237,7 +251,7 @@ std::cout<<std::endl;
 
 
 
-/*
+
 void rCube::messUp(int numMoves,int snapShot){
      std::random_device rd; 
     std::mt19937 mt(rd()); 
@@ -254,7 +268,8 @@ void rCube::messUp(int numMoves,int snapShot){
         snap+=1;
 
         if(snap%snapShot==0){
-            printCube();
+            //printCube();
+            printCubeCross();
         }      
     }    
 
@@ -361,8 +376,8 @@ switch (movechoice) {
 
 
 
-std::array<std::array<std::string, 3>, 3> rCube::rotateFace(std::array<std::array<std::string, 3>, 3> face2Rot, int distanceChoice){//my implementation wont work for rotations past 3
-    std::array<std::array<std::string, 3>, 3> tempFace=face2Rot;
+std::array<std::array<RubiksPiece, 3>, 3> rCube::rotateFace(std::array<std::array<RubiksPiece, 3>, 3> face2Rot, int distanceChoice){//my implementation wont work for rotations past 3
+    std::array<std::array<RubiksPiece, 3>, 3> tempFace=face2Rot;
 
     if(distanceChoice>0){
         face2Rot[0][1]=tempFace[1][0];
@@ -394,7 +409,7 @@ return face2Rot;
 }
 
 void rCube::xMovement(int layerChoice, int distanceChoice){
-std::array<std::array<std::string, 3>, 3> tempyArray=firstFace;
+std::array<std::array<RubiksPiece, 3>, 3> tempyArray=firstFace;
 
     for(int i=0;i<3;i++){
         if(distanceChoice<0){firstFace[i][layerChoice]=topFace[i][layerChoice];}
@@ -433,7 +448,7 @@ std::array<std::array<std::string, 3>, 3> tempyArray=firstFace;
 
 
 void rCube::yMovement(int layerChoice, int distanceChoice){
-std::array<std::array<std::string, 3>, 3> tempyArray=firstFace;
+std::array<std::array<RubiksPiece, 3>, 3> tempyArray=firstFace;
 
     for(int i=0;i<3;i++){
         if(distanceChoice>0){firstFace[layerChoice][i]=secondFace[layerChoice][i];}
@@ -475,7 +490,7 @@ std::array<std::array<std::string, 3>, 3> tempyArray=firstFace;
 
 
 void rCube::zMovement(int layerChoice, int distanceChoice){
-std::array<std::array<std::string, 3>, 3> tempyArray=topFace;
+std::array<std::array<RubiksPiece, 3>, 3> tempyArray=topFace;
 
     for(int i=0;i<3;i++){
         if(distanceChoice>0){topFace[2-layerChoice][i]=fourthFace[2-i][2-layerChoice];}
@@ -517,14 +532,270 @@ std::array<std::array<std::string, 3>, 3> tempyArray=topFace;
 
 
 
-void rCube::moveWhiteToFirst(){
+void rCube::moveWhiteToFirst(bool turn){
+    if(turn==false){
+    std::cout<<"Moving White to FirstFace"<<std::endl;
+    }
+    if( firstFace[1][1]._color==Color::White){
+        return;
+    }
 
-    //if( first.center!=white)
-    //
+    else if(thirdFace[1][1]._color==Color::White){
+        movement(Move::rotateX);
+        movement(Move::rotateX);
+    }
+    else if (turn==false){
+        movement(Move::rotateX);
+        moveWhiteToFirst(true);
+    }
+    else{
+        movement(Move::rotateY);
+    }
 
 
 }
-*/
+
+void rCube::checkWhiteCross(){
+std::array<Color,4> edgeColorWC={Color::Blue,Color::Red,Color::Green,Color::Orange};
+
+
+for(int i=0;i<crossPositions.size();i++){
+    int row = crossPositions[i].first;
+    int col = crossPositions[i].second;
+    
+    if((firstFace[row][col]._color!=Color::White )||(firstFace[row][col]._connectedColors.at(0)!=edgeColorWC[i] )){
+        moveWhiteCross(crossPositions[i],edgeColorWC[i]);
+    }
+    
+}
+
+}
+
+void rCube::moveWhiteCrossfromYellow(std::pair<int, int> finalPos,Color connEdge){
+  int backCol;
+  if(finalPos.second==0){
+    backCol=2;
+  }
+  else if(finalPos.second==2){
+    backCol=0;
+  }
+  else{
+    backCol=1;
+  }
+
+  for(int i=0;i<crossPositions.size();i++){//checks the back of the cube relative to white face and then moves to position
+    int row = crossPositions[i].first;
+    int col = crossPositions[i].second;
+    
+    if((thirdFace[row][col]._color==Color::White )&&(thirdFace[row][col]._connectedColors.at(0)==connEdge )){
+
+
+        
+while((thirdFace[finalPos.first][backCol]._color!=Color::White )||(thirdFace[finalPos.first][backCol]._connectedColors.at(0)!=connEdge )){
+     movement(Move::Back);
+        }
+
+        printCubeCross();
+        swappingFirstandThird(finalPos, connEdge); 
+        printCubeCross();
+
+    }
+    
+}  
+}
+
+
+void rCube::swappingFirstandThird(std::pair<int, int> finalPos,Color connEdge){
+if(finalPos==crossPositions[0]){
+    movement(Move::Top);
+    movement(Move::Top);
+}
+else if(finalPos==crossPositions[1]){
+    movement(Move::Right);
+    movement(Move::Right);
+}
+else if(finalPos==crossPositions[2]){
+    movement(Move::Bottom);
+    movement(Move::Bottom);
+}
+else{
+    movement(Move::Left);
+    movement(Move::Left);
+}
+
+
+
+}
+
+void rCube::moveWhiteCross(std::pair<int, int> finalPos,Color connEdge){
+
+
+    int row = finalPos.first;
+    int col = finalPos.second;
+    
+
+    for(int i=0;i<allFaces.size();i++){//checking each face for the piece
+        for(int j=0;j<crossPositions.size();j++){//checking each valid position on the cube
+            int rowCheck=crossPositions[j].first;
+            int colCheck=crossPositions[j].second;
+
+        if((i==1)&&(firstFace[rowCheck][colCheck]._color==Color::White )&&(firstFace[rowCheck][colCheck]._connectedColors[0]==connEdge)){
+            swappingFirstandThird(std::make_pair(rowCheck, colCheck), connEdge); 
+            moveWhiteCrossfromYellow(finalPos,connEdge);
+            return;
+        }
+
+        else if((i==3)&&(thirdFace[rowCheck][colCheck]._color==Color::White )&&(thirdFace[rowCheck][colCheck]._connectedColors[0]==connEdge)){      
+            moveWhiteCrossfromYellow(finalPos,connEdge);
+            return;
+        }
+
+
+        else if((i==0)&&(topFace[rowCheck][colCheck]._color==Color::White )&&(topFace[rowCheck][colCheck]._connectedColors[0]==connEdge)){ 
+             if((topFace[0][1]._color==Color::White)&&(topFace[0][1]._connectedColors[0]==connEdge)){
+                    movement(Move::TopPr);
+                    movement(Move::LeftPr);
+                    movement(Move::Back);
+                    movement(Move::Left);
+                    movement(Move::Top);
+             }
+             else  if((topFace[1][2]._color==Color::White)&&(topFace[1][2]._connectedColors[0]==connEdge)){
+                    
+                    movement(Move::Right);
+                    movement(Move::Back);
+                    movement(Move::RightPr);
+                    
+             }
+             else  if((topFace[2][1]._color==Color::White)&&(topFace[2][1]._connectedColors[0]==connEdge)){
+                    movement(Move::Top);
+                    movement(Move::LeftPr);
+                    movement(Move::Back);
+                    movement(Move::Left);
+                    movement(Move::TopPr);
+             }
+             else  if((topFace[1][0]._color==Color::White)&&(topFace[1][0]._connectedColors[0]==connEdge)){
+                    movement(Move::LeftPr);
+                    movement(Move::Back);
+                    movement(Move::Left);
+             }
+            moveWhiteCrossfromYellow(finalPos,connEdge);
+            return;
+
+        }
+
+
+  else if((i==5)&&(bottomFace[rowCheck][colCheck]._color==Color::White )&&(bottomFace[rowCheck][colCheck]._connectedColors[0]==connEdge)){ 
+             if((bottomFace[0][1]._color==Color::White)&&(bottomFace[0][1]._connectedColors[0]==connEdge)){
+                    movement(Move::BottomPr);
+                    movement(Move::Left);
+                    movement(Move::BackPr);
+                    movement(Move::LeftPr);
+                    movement(Move::Bottom);
+             }
+             else  if((bottomFace[1][2]._color==Color::White)&&(bottomFace[1][2]._connectedColors[0]==connEdge)){
+                    
+                    movement(Move::RightPr);
+                    movement(Move::BackPr);
+                    movement(Move::Right);
+                    
+             }
+             else  if((bottomFace[2][1]._color==Color::White)&&(bottomFace[2][1]._connectedColors[0]==connEdge)){
+                    movement(Move::Bottom);
+                    movement(Move::Left);
+                    movement(Move::BackPr);
+                    movement(Move::LeftPr);
+                    movement(Move::BottomPr);
+             }
+             else  if((bottomFace[1][0]._color==Color::White)&&(bottomFace[1][0]._connectedColors[0]==connEdge)){
+                    movement(Move::Left);
+                    movement(Move::BackPr);
+                    movement(Move::LeftPr);
+             }
+            moveWhiteCrossfromYellow(finalPos,connEdge);
+            return;
+
+        }
+
+
+  else if((i==2)&&(secondFace[rowCheck][colCheck]._color==Color::White )&&(secondFace[rowCheck][colCheck]._connectedColors[0]==connEdge)){ 
+             if((secondFace[0][1]._color==Color::White)&&(secondFace[0][1]._connectedColors[0]==connEdge)){
+                   
+
+                    movement(Move::TopPr);//good
+                    movement(Move::Back);//good
+                    movement(Move::Top);//good
+             }
+             //[1][2] is actually the type that needs a lot of moves
+             else  if((secondFace[1][2]._color==Color::White)&&(secondFace[1][2]._connectedColors[0]==connEdge)){
+                    movement(Move::RightPr);//good
+                    movement(Move::TopPr);//good
+                    movement(Move::Back);//good
+                    movement(Move::Top);//good
+                    movement(Move::Right);//good
+                    
+             }
+             else  if((secondFace[2][1]._color==Color::White)&&(secondFace[2][1]._connectedColors[0]==connEdge)){
+                   
+
+                    movement(Move::Bottom);//good
+                    movement(Move::BackPr);//good
+                    movement(Move::BottomPr);//good
+             }
+             //[1][0] is actually the type that needs a lot of moves
+             else  if((secondFace[1][0]._color==Color::White)&&(secondFace[1][0]._connectedColors[0]==connEdge)){
+                    movement(Move::Right);//good
+                    movement(Move::TopPr);//good
+                    movement(Move::Back);//good
+                    movement(Move::Top);//good
+                    movement(Move::RightPr);//good
+             }
+           
+            moveWhiteCrossfromYellow(finalPos,connEdge);
+            return;
+
+        }
+
+ else if((i==4)&&(fourthFace[rowCheck][colCheck]._color==Color::White )&&(fourthFace[rowCheck][colCheck]._connectedColors[0]==connEdge)){ 
+             if((fourthFace[0][1]._color==Color::White)&&(fourthFace[0][1]._connectedColors[0]==connEdge)){
+                   
+                    //normie one
+                    movement(Move::Top);
+                    movement(Move::BackPr);
+                    movement(Move::TopPr);
+             }
+             //[1][2] is actually the type that needs a lot of moves
+             else  if((fourthFace[1][2]._color==Color::White)&&(fourthFace[1][2]._connectedColors[0]==connEdge)){
+                    movement(Move::LeftPr);//good
+                    movement(Move::Top);//good
+                    movement(Move::BackPr);//good
+                    movement(Move::TopPr);//good
+                    movement(Move::Left);//good
+                    
+             }
+             else  if((fourthFace[2][1]._color==Color::White)&&(fourthFace[2][1]._connectedColors[0]==connEdge)){
+                   
+
+                    movement(Move::BottomPr);
+                    movement(Move::Back);
+                    movement(Move::Bottom);
+             }
+             //[1][0] is actually the type that needs a lot of moves
+             else  if((fourthFace[1][0]._color==Color::White)&&(fourthFace[1][0]._connectedColors[0]==connEdge)){
+                   movement(Move::Left);//good
+                    movement(Move::Top);//good
+                    movement(Move::BackPr);//good
+                    movement(Move::TopPr);//good
+                    movement(Move::LeftPr);//good
+             }           
+            moveWhiteCrossfromYellow(finalPos,connEdge);
+            return;
+
+        }
+
+}
+}
+}
+
 
 
 #endif

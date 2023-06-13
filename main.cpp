@@ -14,11 +14,30 @@ rCube RubiksCube;
 RubiksCube.printCube();
 RubiksCube.printCubeCross();
 
+/*RubiksCube.movement(Move::Top);
+RubiksCube.movement(Move::Top);
+RubiksCube.movement(Move::Back);*/
+//RubiksCube.movement(Move::FrontPr);
 
-//RubiksCube.messUp(20,20);
+  //  RubiksCube.movement(Move::TopPr);
+  //  RubiksCube.printCubeCross();
+  //  RubiksCube.movement(Move::Back);
+ //   RubiksCube.printCubeCross();
+ //   RubiksCube.movement(Move::Right);
+          RubiksCube.messUp(30,30);
+RubiksCube.printCubeCross();
+
+            RubiksCube.moveWhiteToFirst(false);
+            RubiksCube.checkWhiteCross();
+
+
+        RubiksCube.printCubeCross();
+//RubiksCube.messUp(30,5);
 //RubiksCube.printCubeCross();
+//RubiksCube.checkWhiteCross();
 
-//RubiksCube.printCube();
+//move white cross into correct position, then white edges
+//then move second row centers to right spot 
 
 
 
