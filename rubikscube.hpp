@@ -67,7 +67,9 @@ std::vector<std::pair<int, int>> cornerPositions = {
     std::make_pair(0, 2), 
     std::make_pair(2, 2),
     std::make_pair(2, 0)
-};//*/
+};
+    //add in a queue/list/whatever which shows the messup moves that were done,
+    // and then another one that shows the moves done to solve the cube
     
     public:
     
@@ -101,6 +103,16 @@ std::vector<std::pair<int, int>> cornerPositions = {
     void secondLayerMovement(std::pair<Color, Color> colorPair, Color topCenterColor);
     void secLayerLeftMove();
     void secLayerRightMove();
+
+    void lastLayerCross();
+    void yellowCrossAlgo();
+
+    void lastLayerCorners();
+    void lastLayerAlgo7();
+    void lastLayerAlgo8();
+    void lastLayer0Yellow();
+    void lastLayer1Yellow();
+    void lastLayer2Yellow();
 
 };
 

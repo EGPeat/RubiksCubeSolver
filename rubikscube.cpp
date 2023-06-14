@@ -1038,8 +1038,187 @@ for(int i=0;i<8;i++){//checks the topface for a
     movement(Move::rotateZPr); 
 }
 
+}
+void rCube::yellowCrossAlgo(){
+    movement(Move::Bottom);
+    movement(Move::Right);
+    movement(Move::Front);
+    movement(Move::RightPr);
+    movement(Move::FrontPr);
+    movement(Move::BottomPr);
+
+}
+void rCube::lastLayerCross(){
+    movement(Move::rotateYPr);
+    movement(Move::rotateYPr);
+
+while(
+    (firstFace[0][1]._color!=Color::Yellow)||(firstFace[1][0]._color!=Color::Yellow)||(firstFace[1][2]._color!=Color::Yellow)||
+    (firstFace[2][1]._color!=Color::Yellow)){
+    if(
+    (firstFace[0][1]._color!=Color::Yellow)&&(firstFace[1][0]._color!=Color::Yellow)&&(firstFace[1][2]._color!=Color::Yellow)&&
+    (firstFace[2][1]._color!=Color::Yellow)){//only center is yellow
+        yellowCrossAlgo();
+    }
+    if(firstFace[1][0]._color==Color::Yellow){
+        if(firstFace[0][1]._color==Color::Yellow){
+            yellowCrossAlgo();
+            yellowCrossAlgo();
+        }
+
+        else if(firstFace[1][2]._color==Color::Yellow){
+            yellowCrossAlgo();
+        }
+
+    }
+
+    movement(Move::Front);
+    }
+
+}
+void rCube::lastLayerAlgo7(){
+    movement(Move::Right);
+    movement(Move::Front);
+    movement(Move::Front);
+    movement(Move::RightPr);
+
+    movement(Move::FrontPr);
+    movement(Move::Right);
+
+    movement(Move::FrontPr);
+    movement(Move::RightPr);
+
+}
+void rCube::lastLayerAlgo8(){
+    movement(Move::Right);
+    movement(Move::Front);
+
+    movement(Move::RightPr);
+    movement(Move::Front);
+
+    movement(Move::Right);
+    movement(Move::Front);
+    movement(Move::Front);
+    movement(Move::RightPr);
+}
+
+void rCube::lastLayer0Yellow(){
+
+
+for(int i=0;i<5;i++){
+
+    if(bottomFace[0][2]._color==Color::Yellow&&bottomFace[0][0]._color==Color::Yellow&&topFace[2][0]._color==Color::Yellow&&topFace[2][2]._color==Color::Yellow){
+        lastLayerAlgo7();
+        lastLayerAlgo7();
+    }
+
+    else if(bottomFace[0][2]._color==Color::Yellow&&fourthFace[0][2]._color==Color::Yellow&&fourthFace[2][2]._color==Color::Yellow&&topFace[2][2]._color==Color::Yellow){
+        lastLayerAlgo7();
+        movement(Move::FrontPr);
+        lastLayerAlgo7();
+
+    }
+
+
+movement(Move::Front);
+}
+
+}
+
+
+
+
+
+void rCube::lastLayer1Yellow(){
+
+for(int i=0;i<5;i++){
+    if(bottomFace[0][2]._color==Color::Yellow&&firstFace[2][0]._color==Color::Yellow){
+        printCubeCross();
+        lastLayerAlgo8();
+        printCubeCross();
+        return;
+    }
+    else if(secondFace[2][0]._color==Color::Yellow&&firstFace[0][2]._color==Color::Yellow){
+        printCubeCross();
+        lastLayerAlgo7();
+        printCubeCross();
+        return;
+    }
+
+
+    movement(Move::Front);
+}
 
 
 }
+void rCube::lastLayer2Yellow(){
+for(int i=0;i<5;i++){
+
+    if(fourthFace[0][2]._color==Color::Yellow&&secondFace[0][0]._color==Color::Yellow){//headlights but to side. Algo7+U+Algo8
+    lastLayerAlgo7();
+    movement(Move::Front);
+    lastLayerAlgo8();
+    }
+
+    else if(secondFace[0][0]._color==Color::Yellow&&secondFace[2][0]._color==Color::Yellow){
+        lastLayerAlgo7();
+        movement(Move::FrontPr);
+        lastLayerAlgo8();
+    }
+
+    else if(bottomFace[0][0]._color==Color::Yellow&&firstFace[0][0]._color==Color::Yellow){
+        lastLayerAlgo7();
+        movement(Move::Front);
+        movement(Move::Front);
+        lastLayerAlgo8();
+    }
+
+
+
+
+
+movement(Move::Front);
+}
+
+}
+
+
+
+void rCube::lastLayerCorners(){
+
+int numCornerYellow=0;
+
+ for(int i=0;i<cornerPositions.size();i++){//yellow
+    int row = cornerPositions[i].first;
+    int col = cornerPositions[i].second;
+    if(firstFace[row][col]._color==Color::Yellow){
+        
+        numCornerYellow+=1;
+
+    }
+    }
+    std::cout<<"The Number of Yellow Corners is "<<numCornerYellow<<std::endl;
+    printCubeCross();
+
+    if(numCornerYellow==0){
+        lastLayer0Yellow();
+        return;
+    }
+    else if(numCornerYellow==1){
+        lastLayer1Yellow();
+        return;
+    }
+    else if(numCornerYellow==2){
+        lastLayer2Yellow();
+        return;
+    }
+    else if(numCornerYellow==4){
+        return;
+    }
+
+
+}
+
+
 
 #endif
