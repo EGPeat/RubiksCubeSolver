@@ -113,7 +113,10 @@ std::vector<std::pair<int, int>> cornerPositions = {
     void lastLayer0Yellow();
     void lastLayer1Yellow();
     void lastLayer2Yellow();
-
+    void yellowCornerAlgo();
+    void makingYellowCorners();
+    void yellowFinalPermute();
+    void yellowFinalPermuteHelper();
 };
 
 

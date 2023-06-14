@@ -534,7 +534,6 @@ std::array<std::array<RubiksPiece, 3>, 3> tempyArray=topFace;
 
 void rCube::moveWhiteToFirst(bool turn){
     if(turn==false){
-    std::cout<<"Moving White to FirstFace"<<std::endl;
     }
     if( firstFace[1][1]._color==Color::White){
         return;
@@ -594,10 +593,7 @@ void rCube::moveWhiteCrossfromYellow(std::pair<int, int> finalPos,Color connEdge
 while((thirdFace[finalPos.first][backCol]._color!=Color::White )||(thirdFace[finalPos.first][backCol]._connectedColors.at(0)!=connEdge )){
      movement(Move::Back);
         }
-
-        printCubeCross();
         swappingFirstandThird(finalPos, connEdge); 
-        printCubeCross();
 
     }
     
@@ -806,7 +802,6 @@ void rCube::cornerToYellow(std::pair<Color, Color> colorPair, Color topCenterCol
 
     if((firstFace[0][0]._color==Color::White )&&(firstFace[0][0]._connectedColors.at(0)==colorPair.first )&&
     (firstFace[0][0]._connectedColors.at(1)==colorPair.second )){//correct placement already
-       std::cout<<"piece is already there\n";
        return;}
     
 
@@ -936,7 +931,6 @@ void rCube::firstLayerFinish(){
         while(topFace[1][1]._color!=backupColor){
             movement(Move::rotateZPr);
         }
-        printCubeCross();
     movement(Move::rotateZPr);
     }
 }
@@ -965,29 +959,25 @@ void rCube::secondLayerMovement(std::pair<Color, Color> colorPair, Color topCent
 for(int i=0;i<4;i++){
     if(topFace[0][1]._color==topFace[1][1]._color){
         if(topFace[0][1]._connectedColors.at(0)==fourthFace[1][1]._color){
-            printCubeCross();
             secLayerLeftMove();
-            printCubeCross();
             return;
         }
         else if(topFace[0][1]._connectedColors.at(0)==secondFace[1][1]._color){
             secLayerRightMove();
-            printCubeCross();
             return;
         }
 
     }
 
 
-    printCubeCross();
+
     movement(Move::rotateZPr);
     movement(Move::BackPr);//or back lol? 
-    printCubeCross();
+
 
 }
 
 while(topFace[1][1]._color!=topCenterColor){//move back to start
-    std::cout<<"moving back to start owo"<<std::endl;
     movement(Move::rotateZPr); 
 }
 }
@@ -1133,15 +1123,11 @@ void rCube::lastLayer1Yellow(){
 
 for(int i=0;i<5;i++){
     if(bottomFace[0][2]._color==Color::Yellow&&firstFace[2][0]._color==Color::Yellow){
-        printCubeCross();
         lastLayerAlgo8();
-        printCubeCross();
         return;
     }
     else if(secondFace[2][0]._color==Color::Yellow&&firstFace[0][2]._color==Color::Yellow){
-        printCubeCross();
         lastLayerAlgo7();
-        printCubeCross();
         return;
     }
 
@@ -1197,8 +1183,7 @@ int numCornerYellow=0;
 
     }
     }
-    std::cout<<"The Number of Yellow Corners is "<<numCornerYellow<<std::endl;
-    printCubeCross();
+    
 
     if(numCornerYellow==0){
         lastLayer0Yellow();
@@ -1218,6 +1203,129 @@ int numCornerYellow=0;
 
 
 }
+
+void rCube::yellowCornerAlgo(){
+
+    movement(Move::Right);
+    movement(Move::TopPr);
+    movement(Move::Right);
+    movement(Move::Bottom);
+    movement(Move::Bottom);
+    movement(Move::RightPr);
+    movement(Move::Top);
+    movement(Move::Right);
+    movement(Move::Bottom);
+    movement(Move::Bottom);
+    movement(Move::Right);
+    movement(Move::Right);
+
+    
+
+
+
+
+
+}
+void rCube::makingYellowCorners(){
+
+    if( topFace[2][2]._color==topFace[2][0]._color&&
+        fourthFace[2][2]._color==fourthFace[0][2]._color&&
+        bottomFace[0][0]._color==bottomFace[0][2]._color&&
+        secondFace[0][0]._color==secondFace[2][0]._color){
+        return;
+    }
+    else if(topFace[2][2]._color==topFace[2][0]._color){
+        movement(Move::Front);
+        movement(Move::Front);
+        yellowCornerAlgo();
+        return;
+    }
+    else if(fourthFace[2][2]._color==fourthFace[0][2]._color){
+        movement(Move::FrontPr);
+        yellowCornerAlgo();
+        return;
+    }
+    else if(bottomFace[0][0]._color==bottomFace[0][2]._color){
+        yellowCornerAlgo();
+        return;
+    }
+    else if(secondFace[0][0]._color==secondFace[2][0]._color){
+        movement(Move::Front);
+        yellowCornerAlgo();
+        return;
+    }
+    else{
+        yellowCornerAlgo();
+        movement(Move::FrontPr);
+        yellowCornerAlgo();
+        return;
+    }
+
+
+
+}
+
+
+void rCube::yellowFinalPermuteHelper(){
+    while(
+        bottomFace[0][0]._color==bottomFace[0][1]._color||
+        fourthFace[2][2]._color==fourthFace[1][2]._color||
+         secondFace[0][0]._color==secondFace[1][0]._color
+
+    ){
+
+    movement(Move::Front);
+ 
+    }
+    
+
+
+    while(bottomFace[0][0]._color!=bottomFace[0][1]._color){
+        
+    movement(Move::Right);
+    movement(Move::FrontPr);
+    movement(Move::Right);
+    movement(Move::Front); 
+    movement(Move::Right);
+    movement(Move::Front);
+    movement(Move::Right);
+    movement(Move::FrontPr);
+    movement(Move::RightPr);
+    movement(Move::FrontPr);
+    movement(Move::Right);
+    movement(Move::Right);
+
+
+    }
+
+
+}
+void rCube::yellowFinalPermute(){
+
+     if( topFace[2][2]._color==topFace[2][1]._color&&
+        fourthFace[2][2]._color==fourthFace[1][2]._color&&
+        bottomFace[0][0]._color==bottomFace[0][1]._color&&
+        secondFace[0][0]._color==secondFace[2][0]._color){
+            while(bottomFace[0][1]._color!=bottomFace[1][1]._color){
+        movement(Move::Front);
+    }
+        return;
+    }
+
+    yellowFinalPermuteHelper();
+
+    
+    if( secondFace[0][0]._color!=secondFace[1][0]._color){
+        movement(Move::Front);
+        movement(Move::Front);
+        yellowFinalPermuteHelper();
+    }
+
+    while(bottomFace[0][1]._color!=bottomFace[1][1]._color){
+        movement(Move::Front);
+    }
+}
+
 
 
 
